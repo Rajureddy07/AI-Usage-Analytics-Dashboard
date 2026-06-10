@@ -6,7 +6,7 @@ connection = psycopg2.connect(
     host="localhost",
     database="ai_data_usage",
     user="postgres",
-    password="123raju"
+    password="******"
 )
 
 cursor = connection.cursor()
