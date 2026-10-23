@@ -1,5 +1,7 @@
 # AI Usage Analytics Dashboard
 
+[![Python syntax](https://github.com/Rajureddy07/AI-Usage-Analytics-Dashboard/actions/workflows/syntax.yml/badge.svg)](https://github.com/Rajureddy07/AI-Usage-Analytics-Dashboard/actions/workflows/syntax.yml)
+
 An interactive dashboard for exploring AI-model usage records with SQL-backed metrics and Plotly visualizations.
 
 ![Dashboard](https://github.com/user-attachments/assets/a6e8d7bb-822a-4d0d-a8ad-12d44c6341ae)
