@@ -1,4 +1,5 @@
 import os
+from contextlib import closing
 
 import pandas as pd
 import plotly.express as px
@@ -65,7 +66,7 @@ except (psycopg2.Error, pd.errors.DatabaseError) as exc:
         "Could not load dashboard data. Check that PostgreSQL is running, "
         "the database credentials are correct, and the usage_data table exists."
     )
-    st.exception(exc)
+    st.caption(f"Database error type: {type(exc).__name__}")
     st.stop()
 
 if data.empty:
