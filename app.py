@@ -34,7 +34,7 @@ if not DB_CONFIG["password"]:
 @st.cache_data(ttl=60)
 def load_dashboard_data():
     """Load data from PostgreSQL and close the connection reliably."""
-    with psycopg2.connect(**DB_CONFIG) as connection:
+    with closing(psycopg2.connect(**DB_CONFIG)) as connection:
         data = pd.read_sql_query(
             """
             SELECT date, model, prompts, tokens, cost, response_time
