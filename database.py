@@ -1,22 +1,37 @@
+"""Small command-line helper for inspecting AI usage records."""
+
+import os
+from contextlib import closing
+
 import psycopg2
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-connection = psycopg2.connect(
+def main() -> None:
+    password = os.getenv("DB_PASSWORD")
+    if not password:
+        raise SystemExit("Set DB_PASSWORD in your local .env file first.")
 
-    host="localhost",
-    database="ai_data_usage",
-    user="postgres",
-    password="******"
-)
+    settings = {
+        "host": os.getenv("DB_HOST", "localhost"),
+        "port": int(os.getenv("DB_PORT", "5432")),
+        "database": os.getenv("DB_NAME", "ai_data_usage"),
+        "user": os.getenv("DB_USER", "postgres"),
+        "password": password,
+        "connect_timeout": 5,
+    }
 
-cursor = connection.cursor()
+    with closing(psycopg2.connect(**settings)) as connection:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT date, model, prompts, tokens, cost, response_time "
+                "FROM usage_data ORDER BY date LIMIT 100"
+            )
+            for row in cursor.fetchall():
+                print(row)
 
-cursor.execute("SELECT * FROM usage_data")
 
-rows = cursor.fetchall()
-
-for row in rows:
-    print(row)
-
-cursor.close()
-connection.close()
+if __name__ == "__main__":
+    main()
